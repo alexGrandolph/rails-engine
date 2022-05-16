@@ -7,8 +7,10 @@ RSpec.describe "Merchants API Requests" do
       create_list(:merchant, 5)
 
       get '/api/v1/merchants'
+      
+      merchants = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to be_successful
 
-      expect(response).to be_sucessful
     end 
 
   end 
