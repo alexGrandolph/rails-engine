@@ -12,7 +12,7 @@ RSpec.describe "items API Requests" do
 
       expect(response).to be_successful
       items = JSON.parse(response.body,symbolize_names: true)[:data]
-
+      
       expect(items).to be_a(Array)
     end 
   end 
