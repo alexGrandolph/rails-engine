@@ -161,7 +161,7 @@ RSpec.describe "items API Requests" do
       merch1 = create(:merchant)
       cust1 = create(:customer)
       
-      item1 = create(item, merchant_id: merch1.id)
+      item1 = create(:item, merchant_id: merch1.id)
       item2 = create(:item, merchant_id: merch1.id)
       
       invoice = create(:invoice, customer_id: cust1.id, merchant_id: merch1.id)
@@ -174,7 +174,7 @@ RSpec.describe "items API Requests" do
 
       expect(Invoice.all.count).to eq(2)
       
-      delete "/api/v1/items/#{item.id}"
+      delete "/api/v1/items/#{item1.id}"
       
       expect(response).to be_successful
       expect(Invoice.all.count).to eq(1)
