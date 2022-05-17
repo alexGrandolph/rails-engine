@@ -142,5 +142,19 @@ RSpec.describe "items API Requests" do
       expect(item.description).to_not eq(og_item.description)
       expect(item.unit_price).to_not eq(og_item.unit_price)
     end 
+
+    it 'can delete an item' do
+      
+      merch_id = create(:merchant).id 
+      merch_id2 = create(:merchant).id 
+      create_list(:item, 3, merchant_id: merch_id2)
+      item = create(:item, merchant_id: merch_id)
+
+      delete "/api/v1/items/#{item.id}"
+      expect(response).to be_successful
+      expect(response.status).to eq(204)
+
+      expect(Book.all.last).to_not eq(item)
+    end 
   end 
 end 
