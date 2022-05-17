@@ -10,7 +10,6 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    # binding.pry
     item = Item.create(item_params)
     if item.save
       render json: ItemSerializer.new(item)
@@ -19,6 +18,13 @@ class Api::V1::ItemsController < ApplicationController
       render status: 404
     end 
   end
+
+  def update
+    item = Item.find(params[:id])
+    item.update(item_params)
+    render json: ItemSerializer.new(item)
+  end
+  
   
 
   private
