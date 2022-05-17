@@ -57,8 +57,20 @@ RSpec.describe "items API Requests" do
       expect(item[:attributes][:merchant_id]).to be_an Integer     
     end 
 
+    it 'can create an item when given attributes and a merchant id' do
+      merch_id = create(:merchant).id 
+      item_params = {
+                      "name": "Cheese",
+                      "description": "Just a bunch of cheese",
+                      "unit_price": 88.88,
+                      "merchant_id": merch_id
+                    }
+      headers = {"CONTENT_TYPE" => "application/json"}
 
+      post "/api/v1/items", headers: headers, params: JSON.generate(item: item_params)
+      expect(response).to be_successful
 
+    end 
 
   end 
 end 
