@@ -124,5 +124,23 @@ RSpec.describe "items API Requests" do
       expect(json_result[:attributes]).to_not have_key(:is_it_cheese)
     end 
 
+    it 'can update an item' do
+      merch_id = create(:merchant).id 
+      og_item = create(:item, merchant_id: merch_id)
+      updated_params = {
+                        "name": "Not Cheese",
+                        "description": "Sadly, No Longer Cheese",
+                        "unit_price":  9.50,
+                        "merchant_id": merch_id
+                      }
+      headers = {"CONTENT_TYPE" => "application/json"}
+      patch "/api/v1/items/#{og_item.id}", headers: headers, params: JSON.generate(item: updated_params)
+      
+      item = Item.find_by(id: og_item.id)
+      expect(response).to be_successful
+      expect(item.name).to_not eq(og_item.name)
+      expect(item.description).to_not eq(og_item.description)
+      expect(item.unit_price).to_not eq(og_item.unit_price)
+    end 
   end 
 end 
