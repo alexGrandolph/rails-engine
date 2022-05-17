@@ -156,5 +156,28 @@ RSpec.describe "items API Requests" do
 
       expect(Item.all.last).to_not eq(item)
     end 
+
+    it 'deleting item also destroys invoice where its item was only item on invoice' do
+      merch1 = create(:merchant)
+      cust1 = create(:customer)
+      
+      item1 = create(item, merchant_id: merch1.id)
+      item2 = create(:item, merchant_id: merch1.id)
+      
+      invoice = create(:invoice, customer_id: cust1.id, merchant_id: merch1.id)
+      invoice2 = create(:invoice, customer_id: cust1.id, merchant_id: merch1.id)
+      #making invoice 1 have only the item to be deleted on it. this invoice should get deleted also
+      invoice_item = create(:invoice_item, item_id: item1.id, invoice_id: invoice.id)
+      #making invoice with one to be deleted item and another item. this invoice should stay
+      invoice_item2 = create(:invoice_item, item_id: item1.id, invoice_id: invoice2.id)
+      invoice_item3 = create(:invoice_item, item_id: item2.id, invoice_id: invoice2.id)
+
+      expect(Invoice.all.count).to eq(2)
+      
+      delete "/api/v1/items/#{item.id}"
+      
+      expect(response).to be_successful
+      expect(Invoice.all.count).to eq(1)
+    end
   end 
 end 
