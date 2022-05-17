@@ -154,7 +154,7 @@ RSpec.describe "items API Requests" do
       expect(response).to be_successful
       expect(response.status).to eq(204)
 
-      expect(Book.all.last).to_not eq(item)
+      expect(Item.all.last).to_not eq(item)
     end 
   end 
 end 
