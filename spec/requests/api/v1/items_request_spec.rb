@@ -33,7 +33,15 @@ RSpec.describe "items API Requests" do
       end 
     end 
 
-    
+    it 'can return an item when given its id' do
+      merch_id = create(:merchant).id 
+      id = create(:item, merchant_id: merch_id).id 
+
+      get "/api/v1/items/#{id}"
+
+      expect(response).to be_successful
+
+    end 
 
 
 
