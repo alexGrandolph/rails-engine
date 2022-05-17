@@ -69,6 +69,12 @@ RSpec.describe "items API Requests" do
 
       post "/api/v1/items", headers: headers, params: JSON.generate(item: item_params)
       expect(response).to be_successful
+      
+      created_item = Item.last
+      expect(created_item.name).to eq(item_params["name"])
+      expect(created_item.description).to eq(item_params["description"])
+      expect(created_item.unit_price).to eq(item_params["unit_price"])
+      expect(created_item.merchant_id).to eq(item_params["merchant_id"])
 
     end 
 
