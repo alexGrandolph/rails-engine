@@ -92,7 +92,36 @@ RSpec.describe "items API Requests" do
 
       expect(json_result[:attributes]).to have_key(:merchant_id)
       expect(json_result[:attributes][:merchant_id]).to be_an Integer     
+    end 
 
+    it 'retuns an error if any attributes are missing' do
+      merch_id = create(:merchant).id 
+      item_params = {
+                      "name": "Cheese",
+                      "unit_price": 88.88,
+                      "merchant_id": merch_id
+                    }
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/items", headers: headers, params: JSON.generate(item: item_params)
+      
+      expect(response.status).to eq(404)
+    end 
+
+    it 'ignores any attributes sent that are not allowed' do
+      merch_id = create(:merchant).id 
+      item_params = {
+                      "name": "Cheese",
+                      "description": "Just a bunch of cheese",
+                      "unit_price": 88.88,
+                      "is_it_cheese": true,
+                      "merchant_id": merch_id
+                    }
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/items", headers: headers, params: JSON.generate(item: item_params)
+      json_result = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(json_result[:attributes]).to_not have_key(:is_it_cheese)
     end 
 
   end 
