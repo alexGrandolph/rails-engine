@@ -71,10 +71,27 @@ RSpec.describe "items API Requests" do
       expect(response).to be_successful
       
       created_item = Item.last
-      expect(created_item.name).to eq(item_params["name"])
-      expect(created_item.description).to eq(item_params["description"])
-      expect(created_item.unit_price).to eq(item_params["unit_price"])
-      expect(created_item.merchant_id).to eq(item_params["merchant_id"])
+
+      expect(created_item.name).to eq(item_params[:name])
+      expect(created_item.description).to eq(item_params[:description])
+      expect(created_item.unit_price).to eq(item_params[:unit_price])
+      expect(created_item.merchant_id).to eq(item_params[:merchant_id])
+      
+      json_result = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(json_result).to have_key(:attributes)
+      expect(json_result[:attributes][:name]).to be_a(String)
+
+      expect(json_result[:attributes]).to have_key(:name)
+      expect(json_result[:attributes][:name]).to be_a(String)
+      
+      expect(json_result[:attributes]).to have_key(:description)
+      expect(json_result[:attributes][:description]).to be_a(String)
+      
+      expect(json_result[:attributes]).to have_key(:unit_price)
+      expect(json_result[:attributes][:unit_price]).to be_a Float
+
+      expect(json_result[:attributes]).to have_key(:merchant_id)
+      expect(json_result[:attributes][:merchant_id]).to be_an Integer     
 
     end 
 
