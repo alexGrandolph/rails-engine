@@ -104,7 +104,23 @@ RSpec.describe "Search/Find Items API Requests" do
     items = JSON.parse(response.body, symbolize_names: true)[:data]
 
     expect(items.count).to eq(2)
-
   end 
+
+  it 'it can return all items equal to or lesser than a given price' do
+    merch = create(:merchant)
+    item1 = create(:item, unit_price: 99.99, merchant_id: merch.id)
+    item2 = create(:item, unit_price: 2325.66, merchant_id: merch.id)
+    item3 = create(:item, unit_price: 4.99, merchant_id: merch.id)
+    item4 = create(:item, unit_price: 12.11, merchant_id: merch.id)
+
+    get '/api/v1/items/find?min_price=99.99'
+    expect(response).to be_successful
+
+    items = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(items.count).to eq(2)
+  end 
+
+  
 
 end 
