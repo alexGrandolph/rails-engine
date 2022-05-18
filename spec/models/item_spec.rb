@@ -20,7 +20,7 @@ RSpec.describe Item, type: :model do
       item3 = create(:item, name: 'pork belly', merchant_id: merch.id)
       item4 = create(:item, name: 'a lot of cheese', merchant_id: merch.id)
       
-      expect(Item.find_one_by_search_term('cheese')).to eq(item1)
+      expect(Item.find_one_by_search_term('cheese')).to eq(item2)
     end 
 
   end 
