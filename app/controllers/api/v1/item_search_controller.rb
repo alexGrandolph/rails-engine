@@ -9,7 +9,7 @@ class Api::V1::ItemSearchController < ApplicationController
       render json: ItemSerializer.new(found_items)
     end 
   end
-  
+ iLl
 
   def show
     search_term = params[:name]
