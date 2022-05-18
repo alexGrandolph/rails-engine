@@ -113,7 +113,7 @@ RSpec.describe "Search/Find Items API Requests" do
     item3 = create(:item, unit_price: 4.99, merchant_id: merch.id)
     item4 = create(:item, unit_price: 12.11, merchant_id: merch.id)
 
-    get '/api/v1/items/find?min_price=99.99'
+    get '/api/v1/items/find?max_price=99.99'
     expect(response).to be_successful
 
     items = JSON.parse(response.body, symbolize_names: true)[:data]
