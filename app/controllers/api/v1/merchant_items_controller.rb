@@ -2,7 +2,7 @@ class Api::V1::MerchantItemsController < ApplicationController
 
   def index
     merch = Merchant.find(params[:merchant_id])
-    render json: MerchantSerializer.new(merch)
+    render json: ItemSerializer.new(merch.items)
     # binding.pry
   end
   
