@@ -10,15 +10,30 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    # binding.pry
     item = Item.create(item_params)
     if item.save
-      render json: ItemSerializer.new(item)
+      render json: ItemSerializer.new(item), status: 201
     else
       # render json: {status: "error", code: 3000, message: "All Attributes Must Be Submitted"}
       render status: 404
     end 
   end
+
+  def update
+    item = Item.find(params[:id])
+    if item.update(item_params)
+      render json: ItemSerializer.new(item)
+    else
+      render status: 404
+    end 
+  end
+
+  def destroy
+    item = Item.find(params[:id])
+    item.destroy
+  end
+  
+  
   
 
   private
