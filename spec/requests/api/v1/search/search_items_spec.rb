@@ -8,10 +8,8 @@ RSpec.describe "Search/Find Items API Requests" do
     item2 = create(:item, name: 'just some cheese', merchant_id: merch.id)
     item3 = create(:item, name: 'pork belly', merchant_id: merch.id)
     item4 = create(:item, name: 'a lot of cheese', merchant_id: merch.id)
-    
-    headers = {"CONTENT_TYPE" => "application/json"}
-    query_params = {'search': 'cheese'}
-    get '/api/v1/items/find', headers: headers, params: JSON.generate(item: query_params)
+   
+    get '/api/v1/items/find?name=cheese',)
     
     expect(response).to be_successful
 
