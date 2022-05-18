@@ -21,6 +21,17 @@ RSpec.describe "Search/Find Merchants API Requests" do
     expect(merchant[:attributes]).to have_key(:name)
     expect(merchant[:attributes][:name]).to be_a String
     expect(merchant[:attributes][:name]).to eq('Ring World')
-    
+  end 
+
+  it 'returns an error if no match for an item was found' do
+    merch1 = create(:merchant, name: 'Turing')
+    merch2 = create(:merchant, name: 'Ring World')
+    merch3 = create(:merchant, name: 'Turkey Town')
+
+    get '/api/v1/merchants/find?name=Purple'
+    result = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(result[:message]).to eq("No merchant containing Purple was found")
+
   end 
 end 
