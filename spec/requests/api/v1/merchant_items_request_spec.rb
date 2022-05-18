@@ -31,7 +31,11 @@ RSpec.describe "Merchant Items API Requests" do
       expect(item[:attributes]).to have_key(:merchant_id)
       expect(item[:attributes][:merchant_id]).to be_an Integer
     end
-   
+  end 
+
+  it 'returns 404 if merchant is not found' do
+    get "/api/v1/merchants/9998989431468464/items"
+    expect(response.status).to eq 404
   end 
   
 end 
