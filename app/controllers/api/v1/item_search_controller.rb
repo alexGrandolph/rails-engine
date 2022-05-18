@@ -21,8 +21,13 @@ class Api::V1::ItemSearchController < ApplicationController
         render json: ItemSerializer.new(found_item)
       end 
     elsif params[:min_price] || params[:max_price]
-      binding.pry
-
+      price = params[:min_price].to_f 
+      items = Item.items_above_price(price)
+      if items.empty
+        render status: 404
+      else
+        render json: ItemSerializer.new(items)
+      end 
     end 
   end 
 
