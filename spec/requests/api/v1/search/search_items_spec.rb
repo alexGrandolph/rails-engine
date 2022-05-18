@@ -87,7 +87,7 @@ RSpec.describe "Search/Find Items API Requests" do
     get '/api/v1/items/find?name=waffles'
 
     result = JSON.parse(response.body, symbolize_names: true)[:data]
-
+    
     expect(result[:message]).to eq("No item containing waffles was found")
   end 
 
