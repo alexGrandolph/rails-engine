@@ -29,10 +29,10 @@ RSpec.describe Item, type: :model do
       item2 = create(:item, name: 'just some cheesebelly', merchant_id: merch.id)
       item4 = create(:item, name: 'a lot of cheese', merchant_id: merch.id)
       item3 = create(:item, name: 'just some cheese', merchant_id: merch.id)
-      expect(Item.find_all_by_search_term('cheese')).to be_an Array
+     
       expect(Item.find_all_by_search_term('cheese')).to eq([item2, item4, item3])
-      
-    end 
 
+    end 
+    
   end 
 end 

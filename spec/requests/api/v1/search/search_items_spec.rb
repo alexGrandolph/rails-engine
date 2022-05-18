@@ -55,9 +55,10 @@ RSpec.describe "Search/Find Items API Requests" do
 
     expect(response).to be_successful
 
-    result = JSON.parse(response.body, symbolize_names: true)[:data]
-    expect(result).to be_an Array
-    expect(result.count).to eq(3)
+    items = JSON.parse(response.body, symbolize_names: true)[:data]
+    # binding.pry
+    expect(items).to be_an Array
+    expect(items.count).to eq(3)
     items.each do |item|
       expect(item).to have_key(:attributes)
       expect(item[:attributes][:name]).to be_a(String)

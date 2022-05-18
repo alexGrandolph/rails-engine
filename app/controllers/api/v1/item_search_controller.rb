@@ -1,9 +1,10 @@
 class Api::V1::ItemSearchController < ApplicationController
 
   def index
-    search_term = params[:term]
+    search_term = params[:name]
     found_items = Item.find_all_by_search_term(search_term)
-    render json: ItemSerializer.new(found_item)
+    # binding.pry
+    render json: ItemSerializer.new(found_items)
   end
   
 

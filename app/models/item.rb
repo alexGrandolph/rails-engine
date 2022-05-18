@@ -10,4 +10,10 @@ class Item < ApplicationRecord
     term = search_term.downcase
     Item.where("name ILIKE ?", "%#{term}%").first
   end 
+
+  def self.find_all_by_search_term(search_term)
+    Item.where("name ILIKE ?", "%#{search_term}%")
+   
+  end
+  
 end 
