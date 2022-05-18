@@ -9,7 +9,7 @@ RSpec.describe "Search/Find Items API Requests" do
     item3 = create(:item, name: 'pork belly', merchant_id: merch.id)
     item4 = create(:item, name: 'a lot of cheese', merchant_id: merch.id)
    
-    get '/api/v1/items/find?name=cheese',)
+    get '/api/v1/items/find?name=cheese'
     
     expect(response).to be_successful
 
