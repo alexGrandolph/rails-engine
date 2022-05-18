@@ -9,15 +9,20 @@ class Api::V1::ItemSearchController < ApplicationController
       render json: ItemSerializer.new(found_items)
     end 
   end
- iLl
+ 
 
   def show
-    search_term = params[:name]
-    found_item = Item.find_one_by_search_term(search_term)
-    if found_item.nil?
-      render json: { data: { message: "No item containing #{search_term} was found" } }
-    else 
-      render json: ItemSerializer.new(found_item)
+    if params[:name]
+      search_term = params[:name]
+      found_item = Item.find_one_by_search_term(search_term)
+      if found_item.nil?
+        render json: { data: { message: "No item containing #{search_term} was found" } }
+      else 
+        render json: ItemSerializer.new(found_item)
+      end 
+    elsif params[:min_price] || params[:max_price]
+      binding.pry
+
     end 
   end 
 
