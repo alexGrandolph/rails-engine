@@ -13,7 +13,11 @@ class Item < ApplicationRecord
 
   def self.find_all_by_search_term(search_term)
     Item.where("name ILIKE ?", "%#{search_term}%")
-   
   end
+
+  def self.items_above_price(price)
+    Item.where("unit_price >= ?", price)
+  end
+  
   
 end 
