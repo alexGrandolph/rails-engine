@@ -7,7 +7,7 @@ RSpec.describe "Search/Find Merchants API Requests" do
     merch2 = create(:merchant, name: 'Ring World')
     merch3 = create(:merchant, name: 'Turkey Town')
 
-    get '/api/vi/merchants/find?name=Ring'
+    get '/api/v1/merchants/find?name=Ring'
     
     expect(response).to be_successful
 
