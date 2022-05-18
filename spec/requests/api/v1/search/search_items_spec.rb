@@ -75,7 +75,20 @@ RSpec.describe "Search/Find Items API Requests" do
       expect(item[:attributes]).to have_key(:merchant_id)
       expect(item[:attributes][:merchant_id]).to be_an Integer
     end
-    
+  end 
+
+  it 'returns an error if no match for an item was found' do
+    merch = create(:merchant)
+    item1 = create(:item, name: 'brisket', merchant_id: merch.id)
+    item2 = create(:item, name: 'just some cheese', merchant_id: merch.id)
+    item3 = create(:item, name: 'pork belly', merchant_id: merch.id)
+    item4 = create(:item, name: 'a lot of cheese', merchant_id: merch.id)
+   
+    get '/api/v1/items/find?name=waffles'
+
+    result = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(result[:message]).to eq("No item containing waffles was found")
   end 
 
 end 
