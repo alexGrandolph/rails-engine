@@ -20,7 +20,7 @@ RSpec.describe "Search/Find Merchants API Requests" do
 
     expect(merchant[:attributes]).to have_key(:name)
     expect(merchant[:attributes][:name]).to be_a String
-    expect(merchant[:attributes][:name]).to eq('Turing')
+    expect(merchant[:attributes][:name]).to eq('Ring World')
     
   end 
 end 
