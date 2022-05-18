@@ -44,4 +44,37 @@ RSpec.describe "Search/Find Items API Requests" do
     expect(result[:message]).to eq("No item containing purple was found")
   end 
 
+  it 'returns all items that match a search term' do
+    merch = create(:merchant)
+    item1 = create(:item, name: 'brisket', merchant_id: merch.id)
+    item2 = create(:item, name: 'just some cheese', merchant_id: merch.id)
+    item3 = create(:item, name: 'pork cheese', merchant_id: merch.id)
+    item4 = create(:item, name: 'a lot of cheese', merchant_id: merch.id)
+
+    get '/api/v1/items/find_all?name=cheese'
+
+    expect(response).to be_successful
+
+    result = JSON.parse(response.body, symbolize_names: true)[:data]
+    expect(result).to be_an Array
+    expect(result.count).to eq(3)
+    items.each do |item|
+      expect(item).to have_key(:attributes)
+      expect(item[:attributes][:name]).to be_a(String)
+
+      expect(item[:attributes]).to have_key(:name)
+      expect(item[:attributes][:name]).to be_a(String)
+      
+      expect(item[:attributes]).to have_key(:description)
+      expect(item[:attributes][:description]).to be_a(String)
+      
+      expect(item[:attributes]).to have_key(:unit_price)
+      expect(item[:attributes][:unit_price]).to be_a Float
+
+      expect(item[:attributes]).to have_key(:merchant_id)
+      expect(item[:attributes][:merchant_id]).to be_an Integer
+    end
+    
+  end 
+
 end 
