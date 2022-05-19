@@ -79,6 +79,15 @@ RSpec.describe "Search/Find Merchants API Requests" do
       expect(merchant[:attributes]).to have_key(:name)
       expect(merchant[:attributes][:name]).to be_a(String)
     end
+  end 
 
+  it 'returns status 400 if no name is given' do
+    merch1 = create(:merchant, name: 'Cheese World')
+    merch2 = create(:merchant, name: 'Ring World')
+    merch3 = create(:merchant, name: 'Turkey Town')
+
+    get '/api/v1/merchants/find_all?name='
+
+    expect(reponse.status).to eq(400)
   end 
 end 
