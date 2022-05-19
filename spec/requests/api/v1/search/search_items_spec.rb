@@ -138,16 +138,33 @@ RSpec.describe "Search/Find Items API Requests" do
 
   it 'can return both min_price and max_price' do
     merch = create(:merchant)
-    item1 = create(:item, name: 'cheese corp', unit_price: 3.99, merchant_id: merch.id)
-    item2 = create(:item, name: 'turkey town', unit_price: 16.88, merchant_id: merch.id)
-    item3 = create(:item, name: 'my dog skeeter', unit_price: 4.99, merchant_id: merch.id)
-    item4 = create(:item, name: 'Arbys', unit_price: 2.11, merchant_id: merch.id)
+    item1 = create(:item, name: 'cheese corp', unit_price: 66.00, merchant_id: merch.id)
+    item2 = create(:item, name: 'turkey town', unit_price: 52.55, merchant_id: merch.id)
+    item3 = create(:item, name: 'my dog skeeter', unit_price: 144.99, merchant_id: merch.id)
+    item4 = create(:item, name: 'Arbys', unit_price: 92.11, merchant_id: merch.id)
 
     get '/api/v1/items/find?max_price=150&min_price=50'
 
+    # binding.pry
     expect(response).to be_successful
+    result = JSON.parse(response.body, symbolize_names: true)[:data]
 
+    expect(result).to have_key(:attributes)
+    expect(result[:attributes][:name]).to eq(item4.name)
   end 
+
+  it 'both name and price params cannot be sent' do
+    merch = create(:merchant)
+    item1 = create(:item, name: 'cheese corp', unit_price: 66.00, merchant_id: merch.id)
+    item2 = create(:item, name: 'turkey town', unit_price: 52.55, merchant_id: merch.id)
+    item3 = create(:item, name: 'my dog skeeter', unit_price: 144.99, merchant_id: merch.id)
+    item4 = create(:item, name: 'Arbys', unit_price: 92.11, merchant_id: merch.id)
+
+    get '/api/v1/items/find?max_price=150&name=skeeter'
+
+    expect(response.status).to eq(400)
+    # binding.pry
+  end
 
   
 

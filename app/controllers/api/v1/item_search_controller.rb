@@ -9,10 +9,13 @@ class Api::V1::ItemSearchController < ApplicationController
       render json: ItemSerializer.new(found_items)
     end 
   end
- 
+    #  if params[:name] && params[:min_price] || params[:max_price]
+    #   render status: 400
 
   def show
-    if params[:name]
+    if params[:name].present? && (params[:min_price].present? || params[:max_price].present?)
+      render status: 400
+    elsif params[:name]
       search_term = params[:name]
       found_item = Item.find_one_by_search_term(search_term)
       if found_item.nil?
@@ -40,7 +43,6 @@ class Api::V1::ItemSearchController < ApplicationController
       else
         render json: ItemSerializer.new(item), status: 200
       end 
-
     end 
   end 
 
