@@ -56,7 +56,7 @@ RSpec.describe "Search/Find Items API Requests" do
     expect(response).to be_successful
 
     items = JSON.parse(response.body, symbolize_names: true)[:data]
-    # binding.pry
+    
     expect(items).to be_an Array
     expect(items.count).to eq(3)
     items.each do |item|
@@ -135,7 +135,7 @@ RSpec.describe "Search/Find Items API Requests" do
     result = JSON.parse(response.body, symbolize_names: true)[:data]
     
     expect(result).to have_key(:error)
-    expect(result[:error]).to eq('no match, too high of min price')
+    expect(result[:error]).to eq('unable to find a match')
   end 
 
   it 'can return both min_price and max_price' do
@@ -147,7 +147,6 @@ RSpec.describe "Search/Find Items API Requests" do
 
     get '/api/v1/items/find?max_price=150&min_price=50'
 
-    # binding.pry
     expect(response).to be_successful
     result = JSON.parse(response.body, symbolize_names: true)[:data]
 
@@ -165,7 +164,6 @@ RSpec.describe "Search/Find Items API Requests" do
     get '/api/v1/items/find?max_price=150&name=skeeter'
 
     expect(response.status).to eq(400)
-   
   end
 
   it 'cannot send a min_price that is greater than the max_price' do
@@ -204,18 +202,24 @@ RSpec.describe "Search/Find Items API Requests" do
     expect(response.status).to eq(400)
   end
 
-    it 'returns status 400 if no name is given' do
-      merch = create(:merchant)
-      item1 = create(:item, name: 'cheese corp', unit_price: 66.00, merchant_id: merch.id)
-      item2 = create(:item, name: 'turkey town', unit_price: 52.55, merchant_id: merch.id)
-      item3 = create(:item, name: 'my dog skeeter', unit_price: 144.99, merchant_id: merch.id)
+  it 'returns status 400 if no name is given for find' do
+    merch = create(:merchant)
+    item1 = create(:item, name: 'cheese corp', unit_price: 66.00, merchant_id: merch.id)
+    item2 = create(:item, name: 'turkey town', unit_price: 52.55, merchant_id: merch.id)
+    item3 = create(:item, name: 'my dog skeeter', unit_price: 144.99, merchant_id: merch.id)
 
-      get '/api/v1/items/find_all?name='
+    get '/api/v1/items/find?name='
 
-      expect(response.status).to eq(400)
+    expect(response.status).to eq(400)
+  end
+  it 'returns status 400 if no name is given for find' do
+    merch = create(:merchant)
+    item1 = create(:item, name: 'cheese corp', unit_price: 66.00, merchant_id: merch.id)
+    item2 = create(:item, name: 'turkey town', unit_price: 52.55, merchant_id: merch.id)
+    item3 = create(:item, name: 'my dog skeeter', unit_price: 144.99, merchant_id: merch.id)
 
-    end
+    get '/api/v1/items/find_all?name='
 
-  
-
+    expect(response.status).to eq(400)
+  end
 end 

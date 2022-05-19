@@ -33,7 +33,6 @@ RSpec.describe "Search/Find Merchants API Requests" do
     result = JSON.parse(response.body, symbolize_names: true)[:data]
 
     expect(result[:message]).to eq("No merchant containing Purple was found")
-
   end 
 
   it 'returns 400 if  param is blank' do
@@ -44,7 +43,6 @@ RSpec.describe "Search/Find Merchants API Requests" do
     get '/api/v1/merchants/find?name='
 
     expect(response.status).to eq(400)
-
   end 
   it 'returns 400 if no param is sent' do
     merch1 = create(:merchant, name: 'Turing')
@@ -72,7 +70,6 @@ RSpec.describe "Search/Find Merchants API Requests" do
     expect(merchants[0][:attributes][:name]).to eq(merch1.name)
     
     merchants.each do |merchant|
-
       expect(merchant).to have_key(:attributes)
       expect(merchant[:attributes][:name]).to be_a(String)
 
