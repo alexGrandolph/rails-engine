@@ -6,7 +6,7 @@ class Api::V1::ItemSearchController < ApplicationController
     # if found_items.empty?
     #   render json:  ItemSerializer.new(found_items)
     # else
-    render json: ItemSerializer.new(found_items)
+      render json: ItemSerializer.new(found_items)
     # end 
   end
 
@@ -25,11 +25,6 @@ class Api::V1::ItemSearchController < ApplicationController
   end 
 
   private
-
-    def price_and_name_params
-      
-    end
-    
 
     def name_params
       search_term = params[:name]
