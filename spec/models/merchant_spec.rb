@@ -18,7 +18,6 @@ RSpec.describe Merchant, type: :model do
       merch3 = create(:merchant, name: 'Turkey Town')
 
       expect(Merchant.find_one_by_search_term('Ring')).to eq(merch2)
-
     end
 
   end 

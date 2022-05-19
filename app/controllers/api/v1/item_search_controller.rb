@@ -3,11 +3,11 @@ class Api::V1::ItemSearchController < ApplicationController
   def index
     search_term = params[:name]
     found_items = Item.find_all_by_search_term(search_term)
-    if found_items.empty?
-      render json:  ItemSerializer.new(found_items)
-    else
-      render json: ItemSerializer.new(found_items)
-    end 
+    # if found_items.empty?
+    #   render json:  ItemSerializer.new(found_items)
+    # else
+    render json: ItemSerializer.new(found_items)
+    # end 
   end
 
   def show
@@ -42,11 +42,10 @@ class Api::V1::ItemSearchController < ApplicationController
     end
 
     def min_price_params
-      # binding.pry
       price = params[:min_price].to_f 
       item = Item.items_above_price(price)
       if price <= 0
-        render json: { error: 'some error'}, status: 400
+        render json: { error: 'price less than or equal to zero has no match'}, status: 400
       elsif item.nil?
         render json: { data: {error: 'no match, too high of min price'}}
       else
@@ -58,9 +57,7 @@ class Api::V1::ItemSearchController < ApplicationController
       price = params[:max_price].to_f 
       item = Item.items_under_price(price)
       if price <= 0
-        render json: { error: 'some error' }, status: 400
-      elsif item.nil?
-        render json: ItemSerializer.new(item), status: 404
+        render json: { error: 'price less than or equal to zero has no match' }, status: 400
       else
         render json: ItemSerializer.new(item), status: 200
       end 
