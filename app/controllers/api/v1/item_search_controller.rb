@@ -9,13 +9,29 @@ class Api::V1::ItemSearchController < ApplicationController
       render json: ItemSerializer.new(found_items)
     end 
   end
-    #  if params[:name] && params[:min_price] || params[:max_price]
-    #   render status: 400
 
   def show
-    if params[:name].present? && (params[:min_price].present? || params[:max_price].present?)
+    if  (params[:min_price].present? || params[:max_price].present?) && params[:name].present?
+      render status: 400
+    elsif min_more_than_max
       render status: 400
     elsif params[:name]
+      name_params
+    elsif params[:min_price]
+      min_price_params 
+    elsif params[:max_price]
+      max_price_params
+    end 
+  end 
+
+  private
+
+    def price_and_name_params
+      
+    end
+    
+
+    def name_params
       search_term = params[:name]
       found_item = Item.find_one_by_search_term(search_term)
       if found_item.nil?
@@ -23,7 +39,10 @@ class Api::V1::ItemSearchController < ApplicationController
       else 
         render json: ItemSerializer.new(found_item)
       end 
-    elsif params[:min_price] 
+    end
+
+    def min_price_params
+      # binding.pry
       price = params[:min_price].to_f 
       item = Item.items_above_price(price)
       if price <= 0
@@ -33,7 +52,9 @@ class Api::V1::ItemSearchController < ApplicationController
       else
         render json: ItemSerializer.new(item), status: 200
       end 
-    elsif params[:max_price]
+    end
+
+    def max_price_params
       price = params[:max_price].to_f 
       item = Item.items_under_price(price)
       if price <= 0
@@ -43,7 +64,14 @@ class Api::V1::ItemSearchController < ApplicationController
       else
         render json: ItemSerializer.new(item), status: 200
       end 
-    end 
-  end 
+    end
+    
+    def min_more_than_max
+      params[:min_price].present? && params[:max_price].present? && params[:min_price].to_f > params[:max_price].to_f
+    end
+    
+    
+    
+
 
 end 
