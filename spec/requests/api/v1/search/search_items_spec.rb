@@ -91,34 +91,34 @@ RSpec.describe "Search/Find Items API Requests" do
     expect(result[:message]).to eq("No item containing waffles was found")
   end 
 
-  it 'it can return all items equal to or greater than a given price' do
+  it 'it can return first item alphabetically that is equal to or greater than a given price' do
     merch = create(:merchant)
-    item1 = create(:item, unit_price: 3.99, merchant_id: merch.id)
-    item2 = create(:item, unit_price: 16.88, merchant_id: merch.id)
-    item3 = create(:item, unit_price: 4.99, merchant_id: merch.id)
-    item4 = create(:item, unit_price: 2.11, merchant_id: merch.id)
+    item1 = create(:item, name: 'cheese corp', unit_price: 3.99, merchant_id: merch.id)
+    item2 = create(:item, name: 'turkey town', unit_price: 16.88, merchant_id: merch.id)
+    item3 = create(:item, name: 'my dog skeeter', unit_price: 4.99, merchant_id: merch.id)
+    item4 = create(:item, name: 'Arbys', unit_price: 2.11, merchant_id: merch.id)
 
     get '/api/v1/items/find?min_price=4.99'
     expect(response).to be_successful
-
-    items = JSON.parse(response.body, symbolize_names: true)[:data]
-
-    expect(items.count).to eq(2)
+    item = JSON.parse(response.body, symbolize_names: true)[:data]
+    
+    expect(item[:attributes][:name]).to eq(item3.name)
   end 
-
-  it 'it can return all items equal to or lesser than a given price' do
+  
+  it 'it can return first item alphabetically that is equal to or lesser than a given price' do
     merch = create(:merchant)
-    item1 = create(:item, unit_price: 99.99, merchant_id: merch.id)
-    item2 = create(:item, unit_price: 2325.66, merchant_id: merch.id)
-    item3 = create(:item, unit_price: 4.99, merchant_id: merch.id)
-    item4 = create(:item, unit_price: 12.11, merchant_id: merch.id)
-
+    item1 = create(:item, name: 'cheese corp', unit_price: 3.99, merchant_id: merch.id)
+    item2 = create(:item, name: 'turkey town', unit_price: 16.88, merchant_id: merch.id)
+    item3 = create(:item, name: 'my dog skeeter', unit_price: 4.99, merchant_id: merch.id)
+    item4 = create(:item, name: 'Arbys', unit_price: 2.11, merchant_id: merch.id)
+    
     get '/api/v1/items/find?max_price=99.99'
     expect(response).to be_successful
+    
+    item = JSON.parse(response.body, symbolize_names: true)[:data]
 
-    items = JSON.parse(response.body, symbolize_names: true)[:data]
-
-    expect(items.count).to eq(3)
+    expect(item[:attributes][:name]).to eq(item4.name)
+    
   end 
 
   
