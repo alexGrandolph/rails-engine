@@ -117,8 +117,23 @@ RSpec.describe "Search/Find Items API Requests" do
     
     item = JSON.parse(response.body, symbolize_names: true)[:data]
 
-    expect(item[:attributes][:name]).to eq(item4.name)
+    expect(item[:attributes][:name]).to eq(item4.name) 
+  end 
+
+  it 'given min_price is too large for match, returns empty object' do
+    merch = create(:merchant)
+    item1 = create(:item, name: 'cheese corp', unit_price: 3.99, merchant_id: merch.id)
+    item2 = create(:item, name: 'turkey town', unit_price: 16.88, merchant_id: merch.id)
+    item3 = create(:item, name: 'my dog skeeter', unit_price: 4.99, merchant_id: merch.id)
+    item4 = create(:item, name: 'Arbys', unit_price: 2.11, merchant_id: merch.id)
+
+    get '/api/v1/items/find?min_price=20.99'
+
+    expect(response).to be_successful
+    result = JSON.parse(response.body, symbolize_names: true)[:data]
     
+    expect(result).to have_key(:error)
+    expect(result[:error]).to eq('no match, too high of min price')
   end 
 
   
