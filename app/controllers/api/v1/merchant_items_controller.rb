@@ -7,8 +7,6 @@ class Api::V1::MerchantItemsController < ApplicationController
       render json: ItemSerializer.new(merch.items)
     else
       render json: { error: 'no match found' }, status: 404
-
-      # render status: 404
     end 
   end
   
