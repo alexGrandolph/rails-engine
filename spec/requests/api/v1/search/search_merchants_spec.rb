@@ -54,6 +54,41 @@ RSpec.describe "Search/Find Merchants API Requests" do
     get '/api/v1/merchants/find'
 
     expect(response.status).to eq(400)
+  end
+  
+  it 'returns all merchants that match a search term' do
+    merch1 = create(:merchant, name: 'Cheese World')
+    merch2 = create(:merchant, name: 'Ring World')
+    merch3 = create(:merchant, name: 'Turkey Town')
+    merch4 = create(:merchant, name: 'Cheese McCheesewizz')
+    merch5 = create(:merchant, name: 'some cheese')
+
+    get '/api/v1/merchants/find_all?name=cheese'
+
+    expect(response).to be_successful
+
+    merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+    expect(merchants.count).to eq(4)
+    
+    expect(merchants[0][:attributes][:name]).to eq(merch1.name)
+    
+    expect(merchants).to have_key(:attributes)
+    merchants.each do |merchant|
+      expect(merchant).to have_key(:attributes)
+      expect(merchant[:attributes][:name]).to be_a(String)
+
+      expect(merchant[:attributes]).to have_key(:name)
+      expect(merchant[:attributes][:name]).to be_a(String)
+      
+      expect(merchant[:attributes]).to have_key(:description)
+      expect(merchant[:attributes][:description]).to be_a(String)
+      
+      expect(merchant[:attributes]).to have_key(:unit_price)
+      expect(merchant[:attributes][:unit_price]).to be_a Float
+
+      expect(merchant[:attributes]).to have_key(:merchant_id)
+      expect(merchant[:attributes][:merchant_id]).to be_an Integer
+    end
 
   end 
 end 
