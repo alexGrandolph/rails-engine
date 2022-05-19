@@ -34,7 +34,8 @@ class Api::V1::ItemSearchController < ApplicationController
       search_term = params[:name]
       found_item = Item.find_one_by_search_term(search_term)
       if found_item.nil?
-        render json: { data: { message: "No item containing #{search_term} was found" } }
+        render json: ErrorSerializer.cant_find_error
+        # render json: { data: { message: "No item containing #{search_term} was found" } }
       else 
         render json: ItemSerializer.new(found_item)
       end 
@@ -44,7 +45,7 @@ class Api::V1::ItemSearchController < ApplicationController
       price = params[:min_price].to_f 
       item = Item.items_above_price(price)
       if price <= 0
-        # render json: ErrorSerializer.cant_find_error
+        # render json: ErrorSerializer.price_error
         render json: { error: 'price less than or equal to zero has no match'}, status: 400
       elsif item.nil?
         render json: ErrorSerializer.cant_find_error
@@ -67,8 +68,4 @@ class Api::V1::ItemSearchController < ApplicationController
       params[:min_price].present? && params[:max_price].present? && params[:min_price].to_f > params[:max_price].to_f
     end
     
-    
-    
-
-
 end 

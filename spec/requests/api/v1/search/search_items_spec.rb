@@ -40,8 +40,8 @@ RSpec.describe "Search/Find Items API Requests" do
     get '/api/v1/items/find?name=purple'
 
     result = JSON.parse(response.body, symbolize_names: true)[:data]
-
-    expect(result[:message]).to eq("No item containing purple was found")
+   
+    expect(result[:error]).to eq("unable to find a match")
   end 
 
   it 'returns all items that match a search term' do
@@ -87,8 +87,8 @@ RSpec.describe "Search/Find Items API Requests" do
     get '/api/v1/items/find?name=waffles'
 
     result = JSON.parse(response.body, symbolize_names: true)[:data]
-    
-    expect(result[:message]).to eq("No item containing waffles was found")
+   
+    expect(result[:error]).to eq("unable to find a match")
   end 
 
   it 'it can return first item alphabetically that is equal to or greater than a given price' do

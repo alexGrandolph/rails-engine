@@ -10,8 +10,6 @@ class Api::V1::MerchantSearchController < ApplicationController
     end 
   end 
 
-
-
   def show
     if params[:name]
       search_term = params[:name]
@@ -25,6 +23,5 @@ class Api::V1::MerchantSearchController < ApplicationController
       render status: 400
     end 
   end
-  
 
 end 

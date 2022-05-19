@@ -6,7 +6,6 @@ class ErrorSerializer
         error: 'unable to find a match'
       }
     }
-
-  end 
-
+  end
+  
 end 
