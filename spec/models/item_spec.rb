@@ -51,9 +51,31 @@ RSpec.describe Item, type: :model do
       item3 = create(:item, name: 'dog den', unit_price: 99.99, merchant_id: merch.id)
       item4 = create(:item, name: 'eldens rings', unit_price: 452.11, merchant_id: merch.id)
     
-    expect(Item.items_under_price(99.99)).to eq(item3)
-
+      expect(Item.items_under_price(99.99)).to eq(item3)
     end 
-    
   end 
+
+  describe 'instance methods' do
+    it 'returns invoices where a given item is the only item on the invoice' do
+      merch1 = create(:merchant)
+      cust1 = create(:customer)
+      
+      item1 = create(:item, merchant_id: merch1.id)
+      item2 = create(:item, merchant_id: merch1.id)
+      
+      invoice = create(:invoice, customer_id: cust1.id, merchant_id: merch1.id)
+      invoice2 = create(:invoice, customer_id: cust1.id, merchant_id: merch1.id)
+      invoice3 = create(:invoice, customer_id: cust1.id, merchant_id: merch1.id)
+      #making invoice 1 have only the item to be deleted on it. this invoice should be returned
+      invoice_item = create(:invoice_item, item_id: item1.id, invoice_id: invoice.id)
+      #making invoice with one to be deleted item and another item. this invoice should stay
+      invoice_item2 = create(:invoice_item, item_id: item1.id, invoice_id: invoice2.id)
+      invoice_item3 = create(:invoice_item, item_id: item2.id, invoice_id: invoice2.id)
+      #making invoice 1 have only the item to be deleted on it. this invoice be returned
+
+      expect(item1.only_item_on_invoice).to eq(invoice1, invoice3)
+    end 
+
+
+  end
 end 

@@ -99,8 +99,8 @@ RSpec.describe "Search/Find Items API Requests" do
     item4 = create(:item, name: 'Arbys', unit_price: 2.11, merchant_id: merch.id)
 
     get '/api/v1/items/find?min_price=4.99'
-    # binding.pry
-    # expect(response).to be_successful
+    
+    expect(response).to be_successful
     item = JSON.parse(response.body, symbolize_names: true)[:data]
     
     expect(item[:attributes][:name]).to eq(item3.name)
