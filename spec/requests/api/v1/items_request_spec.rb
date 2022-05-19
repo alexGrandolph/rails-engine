@@ -192,7 +192,7 @@ RSpec.describe "items API Requests" do
       expect(Invoice.all.count).to eq(2)
       
       delete "/api/v1/items/#{item1.id}"
-      binding.pry
+      # binding.pry
       expect(response).to be_successful
       expect(Invoice.all.count).to eq(1)
     end
