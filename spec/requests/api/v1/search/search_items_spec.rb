@@ -204,6 +204,17 @@ RSpec.describe "Search/Find Items API Requests" do
     expect(response.status).to eq(400)
   end
 
+    it 'returns status 400 if no name is given' do
+      merch = create(:merchant)
+      item1 = create(:item, name: 'cheese corp', unit_price: 66.00, merchant_id: merch.id)
+      item2 = create(:item, name: 'turkey town', unit_price: 52.55, merchant_id: merch.id)
+      item3 = create(:item, name: 'my dog skeeter', unit_price: 144.99, merchant_id: merch.id)
+
+      get '/api/v1/items/find_all?name='
+
+      expect(response.status).to eq(400)
+
+    end
 
   
 
