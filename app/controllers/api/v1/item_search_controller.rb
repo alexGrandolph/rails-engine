@@ -2,12 +2,12 @@ class Api::V1::ItemSearchController < ApplicationController
 
   def index
     search_term = params[:name]
-    found_items = Item.find_all_by_search_term(search_term)
-    # if found_items.empty?
-    #   render json:  ItemSerializer.new(found_items)
-    # else
+    if search_term.blank?
+      render status:400
+    else 
+      found_items = Item.find_all_by_search_term(search_term)
       render json: ItemSerializer.new(found_items)
-    # end 
+    end 
   end
 
   def show

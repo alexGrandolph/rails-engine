@@ -88,6 +88,6 @@ RSpec.describe "Search/Find Merchants API Requests" do
 
     get '/api/v1/merchants/find_all?name='
 
-    expect(reponse.status).to eq(400)
+    expect(response.status).to eq(400)
   end 
 end 

@@ -2,8 +2,12 @@ class Api::V1::MerchantSearchController < ApplicationController
 
   def index
     search_term = params[:name]
-    merchants = Merchant.find_all_by_search_term(search_term)
-    render json: MerchantSerializer.new(merchants)
+    if search_term.blank?
+      render status:400
+    else 
+      merchants = Merchant.find_all_by_search_term(search_term)
+      render json: MerchantSerializer.new(merchants)
+    end 
   end 
 
 
