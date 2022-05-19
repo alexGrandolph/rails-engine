@@ -36,12 +36,22 @@ RSpec.describe "Search/Find Merchants API Requests" do
 
   end 
 
-  it 'returns 400 if no param is sent' do
+  it 'returns 400 if  param is blank' do
     merch1 = create(:merchant, name: 'Turing')
     merch2 = create(:merchant, name: 'Ring World')
     merch3 = create(:merchant, name: 'Turkey Town')
 
     get '/api/v1/merchants/find?name='
+
+    expect(response.status).to eq(400)
+
+  end 
+  it 'returns 400 if no param is sent' do
+    merch1 = create(:merchant, name: 'Turing')
+    merch2 = create(:merchant, name: 'Ring World')
+    merch3 = create(:merchant, name: 'Turkey Town')
+
+    get '/api/v1/merchants/find'
 
     expect(response.status).to eq(400)
 
