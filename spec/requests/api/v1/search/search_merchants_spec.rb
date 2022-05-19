@@ -68,7 +68,7 @@ RSpec.describe "Search/Find Merchants API Requests" do
     expect(response).to be_successful
 
     merchants = JSON.parse(response.body, symbolize_names: true)[:data]
-    expect(merchants.count).to eq(4)
+    expect(merchants.count).to eq(3)
     
     expect(merchants[0][:attributes][:name]).to eq(merch1.name)
     

@@ -27,7 +27,7 @@ RSpec.describe Merchant, type: :model do
       merch4 = create(:merchant, name: 'Cheese McCheesewizz')
       merch5 = create(:merchant, name: 'some cheese')
 
-      expect(Merchant.find_all_by_search_term('cheese')).to eq([merch1, merch3, merch4, merch5])
+      expect(Merchant.find_all_by_search_term('cheese')).to eq([merch1, merch4, merch5])
     end 
 
   end 

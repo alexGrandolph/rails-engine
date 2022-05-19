@@ -23,7 +23,7 @@ RSpec.describe Item, type: :model do
       expect(Item.find_one_by_search_term('cheese')).to eq(item2)
     end 
 
-    it 'returns the first item that matches a search term' do
+    it 'returns items that matches a search term' do
       merch = create(:merchant)    
       item1 = create(:item, name: 'brisket', merchant_id: merch.id)
       item2 = create(:item, name: 'just some cheesebelly', merchant_id: merch.id)
