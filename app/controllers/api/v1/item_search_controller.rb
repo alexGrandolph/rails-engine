@@ -22,19 +22,23 @@ class Api::V1::ItemSearchController < ApplicationController
       end 
     elsif params[:min_price] 
       price = params[:min_price].to_f 
-      items = Item.items_above_price(price)
-      if items.empty?
-        render status: 404
+      item = Item.items_above_price(price)
+      if price <= 0
+        render json: { error: 'some'}, status: 400
+      elsif item.nil?
+        render json: ItemSerializer.new(item), status: 404
       else
-        render json: ItemSerializer.new(items)
+        render json: ItemSerializer.new(item), status: 200
       end 
     elsif params[:max_price]
       price = params[:max_price].to_f 
-      items = Item.items_under_price(price)
-      if items.empty?
-        render status: 404
+      item = Item.items_under_price(price)
+      if price <= 0
+        render json: { error: 'some error' }, status: 400
+      elsif item.nil?
+        render json: ItemSerializer.new(item), status: 404
       else
-        render json: ItemSerializer.new(items)
+        render json: ItemSerializer.new(item), status: 200
       end 
 
     end 

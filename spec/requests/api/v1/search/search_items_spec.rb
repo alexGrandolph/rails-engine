@@ -118,7 +118,7 @@ RSpec.describe "Search/Find Items API Requests" do
 
     items = JSON.parse(response.body, symbolize_names: true)[:data]
 
-    expect(items.count).to eq(2)
+    expect(items.count).to eq(3)
   end 
 
   

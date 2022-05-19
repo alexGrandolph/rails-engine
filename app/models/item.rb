@@ -16,7 +16,12 @@ class Item < ApplicationRecord
   end
 
   def self.items_above_price(price)
-    Item.where("unit_price >= ?", price)
+    # binding.pry
+    Item.where("unit_price >= ?", price).order(:name).first
+  end
+
+  def self.items_under_price(price)
+    Item.where("unit_price <= ?", price).order(:name).first
   end
   
   
