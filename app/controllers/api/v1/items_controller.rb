@@ -10,11 +10,10 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    item = Item.create(item_params)
+    item = Item.new(item_params)
     if item.save
       render json: ItemSerializer.new(item), status: 201
     else
-      # render json: {status: "error", code: 3000, message: "All Attributes Must Be Submitted"}
       render status: 404
     end 
   end
