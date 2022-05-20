@@ -32,7 +32,7 @@ RSpec.describe "Search/Find Merchants API Requests" do
     get '/api/v1/merchants/find?name=Purple'
     result = JSON.parse(response.body, symbolize_names: true)[:data]
 
-    expect(result[:message]).to eq("No merchant containing Purple was found")
+    expect(result[:error]).to eq("No merchant containing Purple was found")
   end 
 
   it 'returns 400 if  param is blank' do

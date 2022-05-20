@@ -45,8 +45,9 @@ class Api::V1::ItemSearchController < ApplicationController
       price = params[:min_price].to_f 
       item = Item.items_above_price(price)
       if price <= 0
-        # render json: ErrorSerializer.price_error
         render json: { error: 'price less than or equal to zero has no match'}, status: 400
+        # render json: ErrorSerializer.price_error
+        # render json: { data: { message: 'bad request', error: "price less than or equal to zero has no match"} }, status: 400
       elsif item.nil?
         render json: ErrorSerializer.cant_find_error
       else
