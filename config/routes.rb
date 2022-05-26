@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  get '/api/v1/revenue', to: 'api/v1/revenue/revenue#date_range'
   namespace :api do
     namespace :v1 do
       get '/items/find', to: 'item_search#show'
@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get '/merchants/find', to: 'merchant_search#show'
       get '/merchants/find_all', to: 'merchant_search#index'
       get '/merchants/most_items', to: 'merchants#most_items'
+     
       resources :merchants, only: [:index, :show] do
         resources :items, only: [:index], controller: :merchant_items
       end
