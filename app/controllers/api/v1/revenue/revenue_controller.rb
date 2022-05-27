@@ -6,6 +6,6 @@ class Api::V1::Revenue::RevenueController < ApplicationController
     start = params[:start]
     last = params[:end]
     revenue = Invoice.range_revenue(start, last)
-    render json: RevenueSerializer.new(revenue)
+    render json: RevenueSerializer.ranged_revenue(revenue)
   end 
 end
